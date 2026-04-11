@@ -195,7 +195,7 @@ input[type=password]:focus{border-color:var(--teal);}
 
 <script>
 const S = {
-  key: '',
+  key: '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',
   rec: null,
   recording: false,
   chunks: {},
@@ -213,6 +213,13 @@ const STEPS = {
   3:{label:'Phrase FR 3',ctx:'Phrase française ton décontracté narratif. Même critères.'},
   4:{label:'Formule magique',ctx:'Enregistrement contenant : phrases françaises + sons indonésiens (R roulé, NG initial, NY, U=ou). Pour le R : évalue si roulé/tapé sur palais ou encore grasseyé à la française. Pour NG : évalue si démarre direct sans voyelle devant ou si le user ajoute un E. Verdict par son + conseil précis si raté. Dis aussi quelle section est la meilleure pour le montage IVC (début/milieu/fin en secondes approx).'},
 };
+
+// AUTO-START si clé déjà dans le code
+window.addEventListener('load', () => {
+  if(S.key && S.key !== 'METS_TA_CLÉ_ICI' && S.key.startsWith('sk-ant-')){
+    goStep(1);
+  }
+});
 
 function saveKey(){
   const k = document.getElementById('apikey').value.trim();
