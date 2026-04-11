@@ -4,732 +4,484 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DuoSlangO — Coaching Voix</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@400;500;600&display=swap');
-
-  :root {
-    --bg: #09101f;
-    --yellow: #F7C948;
-    --teal: #4ECDC4;
-    --red: #FF4757;
-    --green: #2ED573;
-    --surface: #111827;
-    --border: #1e2d45;
-    --text: #e8edf5;
-    --muted: #4a5568;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-
-  .app {
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .logo {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--teal);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--yellow);
-    margin-bottom: 4px;
-    line-height: 1.1;
-  }
-
-  .subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 40px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Progress bar */
-  .progress-track {
-    width: 100%;
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 32px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--teal), var(--yellow));
-    border-radius: 2px;
-    transition: width 0.5s ease;
-  }
-
-  /* Step card */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    margin-bottom: 20px;
-  }
-
-  .step-label {
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--teal);
-    text-transform: uppercase;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 12px;
-  }
-
-  .instruction {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
-
-  /* Phrase à lire */
-  .phrase-box {
-    background: rgba(247, 201, 72, 0.06);
-    border: 1px solid rgba(247, 201, 72, 0.2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    display: none;
-  }
-  .phrase-box.visible { display: block; }
-  .phrase-label {
-    font-size: 10px;
-    color: var(--yellow);
-    letter-spacing: 0.2em;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-  .phrase-text {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--yellow);
-    line-height: 1.4;
-  }
-
-  /* Son indo */
-  .son-box {
-    background: rgba(78, 205, 196, 0.06);
-    border: 1px solid rgba(78, 205, 196, 0.2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    display: none;
-  }
-  .son-box.visible { display: block; }
-  .son-indo {
-    font-family: 'Fraunces', serif;
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--teal);
-    letter-spacing: 0.1em;
-    font-family: 'Inter', sans-serif;
-  }
-  .son-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 4px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Boutons */
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    flex: 1;
-    min-width: 120px;
-    padding: 14px 20px;
-    border-radius: 10px;
-    border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .btn:active { transform: scale(0.97); }
-
-  .btn-primary {
-    background: var(--yellow);
-    color: var(--bg);
-  }
-  .btn-primary:hover { background: #ffd35a; }
-
-  .btn-teal {
-    background: var(--teal);
-    color: var(--bg);
-  }
-  .btn-teal:hover { background: #5ee0d8; }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
-
-  .btn-danger {
-    background: var(--red);
-    color: white;
-  }
-  .btn-danger:hover { background: #ff6070; }
-
-  .btn-success {
-    background: var(--green);
-    color: var(--bg);
-  }
-
-  .btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* Recording indicator */
-  .rec-indicator {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: rgba(255, 71, 87, 0.1);
-    border: 1px solid rgba(255, 71, 87, 0.3);
-    border-radius: 10px;
-    margin-bottom: 16px;
-  }
-  .rec-indicator.active { display: flex; }
-  .rec-dot {
-    width: 10px;
-    height: 10px;
-    background: var(--red);
-    border-radius: 50%;
-    animation: pulse 1s ease infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-  .rec-text {
-    font-size: 13px;
-    color: var(--red);
-    font-family: 'Inter', sans-serif;
-  }
-  .rec-timer {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--red);
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Audio playback */
-  .playback-box {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .playback-box.visible { display: flex; }
-  .playback-label {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.15em;
-  }
-  audio {
-    width: 100%;
-    height: 36px;
-    accent-color: var(--teal);
-  }
-
-  /* Takes list */
-  .takes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .take-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: rgba(78, 205, 196, 0.05);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-  .take-item.selected {
-    border-color: var(--teal);
-    background: rgba(78, 205, 196, 0.1);
-  }
-  .take-num {
-    font-size: 11px;
-    font-family: 'Inter', sans-serif;
-    color: var(--muted);
-    min-width: 40px;
-  }
-  .take-audio { flex: 1; height: 28px; accent-color: var(--teal); }
-  .take-select {
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: var(--border);
-    border: none;
-    color: var(--muted);
-    font-size: 11px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-  }
-  .take-select.active {
-    background: var(--teal);
-    color: var(--bg);
-  }
-
-  /* Final assembly */
-  .final-box {
-    background: rgba(46, 213, 115, 0.06);
-    border: 1px solid rgba(46, 213, 115, 0.2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 16px;
-    display: none;
-  }
-  .final-box.visible { display: block; }
-  .final-title {
-    font-size: 11px;
-    color: var(--green);
-    letter-spacing: 0.2em;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-  .final-stats {
-    font-size: 13px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Steps hidden */
-  .step { display: none; }
-  .step.active { display: block; }
-
-  .notice {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    padding: 12px 16px;
-    background: rgba(255,255,255,0.02);
-    border-radius: 8px;
-    border-left: 2px solid var(--border);
-    margin-bottom: 16px;
-  }
-
-  .checkmark { color: var(--green); }
-  .cross { color: var(--red); }
+:root{--bg:#09101f;--yellow:#F7C948;--teal:#4ECDC4;--red:#FF4757;--green:#2ED573;--surface:#111827;--border:#1e2d45;--text:#e8edf5;--muted:#4a5568;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:20px;display:flex;flex-direction:column;align-items:center;}
+.app{width:100%;max-width:480px;padding-top:32px;}
+h1{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:var(--yellow);margin-bottom:4px;}
+.sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.prog-track{width:100%;height:2px;background:var(--border);border-radius:2px;margin-bottom:24px;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--yellow));border-radius:2px;transition:width .4s ease;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:14px;}
+.lbl{font-size:11px;letter-spacing:.2em;color:var(--teal);text-transform:uppercase;font-weight:600;margin-bottom:12px;}
+.instr{font-size:15px;line-height:1.65;color:var(--text);margin-bottom:18px;}
+.phrase-box{background:rgba(247,201,72,.07);border:1px solid rgba(247,201,72,.25);border-radius:12px;padding:16px 18px;margin-bottom:16px;}
+.phrase-lbl{font-size:10px;color:var(--yellow);letter-spacing:.2em;font-weight:600;margin-bottom:8px;text-transform:uppercase;}
+.phrase-txt{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--yellow);line-height:1.5;}
+.son-box{background:rgba(78,205,196,.07);border:1px solid rgba(78,205,196,.25);border-radius:12px;padding:16px 18px;margin-bottom:16px;}
+.son-txt{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--teal);}
+.son-hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6;}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn:active{transform:scale(.97);}
+.btn-y{background:var(--yellow);color:var(--bg);}
+.btn-t{background:var(--teal);color:var(--bg);}
+.btn-r{background:var(--red);color:#fff;}
+.btn-g{background:var(--green);color:var(--bg);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+.btn-row{display:flex;gap:8px;}
+.btn-row .btn{margin-bottom:0;}
+.rec-bar{display:none;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);border-radius:10px;margin-bottom:12px;}
+.rec-bar.on{display:flex;}
+.dot{width:9px;height:9px;background:var(--red);border-radius:50%;animation:pulse 1s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+.rec-txt{font-size:12px;color:var(--red);font-weight:600;}
+.rec-time{margin-left:auto;font-size:12px;color:var(--red);}
+.pb{display:none;margin-bottom:12px;}
+.pb.on{display:block;}
+.pb-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+audio{width:100%;height:32px;accent-color:var(--teal);}
+.spin-box{text-align:center;padding:14px;color:var(--muted);font-size:13px;display:none;}
+.spin-box.on{display:block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spin{display:inline-block;animation:spin 1s linear infinite;margin-right:6px;}
+.result{border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.7;margin-bottom:12px;display:none;}
+.result.ok{background:rgba(46,213,115,.08);border:1px solid rgba(46,213,115,.25);color:#a8f0c6;display:block;}
+.result.warn{background:rgba(247,201,72,.08);border:1px solid rgba(247,201,72,.25);color:#fde88a;display:block;}
+.result.bad{background:rgba(255,71,87,.08);border:1px solid rgba(255,71,87,.25);color:#ffb3ba;display:block;}
+.notice{font-size:12px;color:var(--muted);line-height:1.65;padding:11px 14px;background:rgba(255,255,255,.02);border-radius:8px;border-left:2px solid var(--border);margin-bottom:14px;}
+.step{display:none;}
+.step.on{display:block;}
+input[type=password]{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;margin-bottom:12px;outline:none;}
+input[type=password]:focus{border-color:var(--teal);}
+.final{background:rgba(46,213,115,.06);border:1px solid rgba(46,213,115,.2);border-radius:12px;padding:16px;margin-bottom:14px;}
+.final-t{font-size:11px;color:var(--green);letter-spacing:.15em;font-weight:600;margin-bottom:8px;text-transform:uppercase;}
+.takes{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.take-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:12px;}
+.take-item.best{border-color:var(--green);background:rgba(46,213,115,.05);}
+.take-num{color:var(--muted);min-width:50px;}
+.take-score{margin-left:auto;font-weight:600;}
 </style>
 </head>
 <body>
 <div class="app">
+<h1>Coaching Voix</h1>
+<p class="sub">Claude écoute · valide · monte ton 30s IVC</p>
+<div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
 
-  <div class="logo">DuoSlangO</div>
-  <h1>Coaching Voix</h1>
-  <p class="subtitle">Enregistrement · Clone IVC · ~5 min</p>
-
-  <div class="progress-track">
-    <div class="progress-fill" id="progress" style="width:0%"></div>
-  </div>
-
-  <!-- ── STEP 0 : INTRO ─────────────────────────────── -->
-  <div class="step active" id="step-0">
-    <div class="card">
-      <div class="step-label">Intro</div>
-      <div class="instruction">
-        On va enregistrer ta voix en <strong style="color:var(--yellow)">3 étapes</strong> :<br><br>
-        <span class="checkmark">①</span> Trois phrases françaises — pour cloner ta voix<br>
-        <span class="checkmark">②</span> Deux sons indonésiens — pour éviter l'accent FR<br>
-        <span class="checkmark">③</span> Assemblage du 30s → envoi à ElevenLabs<br><br>
-        Tu peux refaire chaque prise autant de fois que tu veux.
-      </div>
-      <div class="notice">
-        ⚠ Micro requis · Parle normalement · Pas de bruit de fond si possible
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="goStep(1)">Commencer →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 1 : PHRASE 1 ──────────────────────────── -->
-  <div class="step" id="step-1">
-    <div class="card">
-      <div class="step-label">Étape 1 · Phrase 1 / 3</div>
-      <div class="instruction">Lis cette phrase à voix haute, naturellement. Ton débit normal.</div>
-      <div class="phrase-box visible">
-        <div class="phrase-label">À lire</div>
-        <div class="phrase-text">Ce soir je prends un verre avec des amis dans un bar sympa du quartier.</div>
-      </div>
-      <div class="rec-indicator" id="rec-1">
-        <div class="rec-dot"></div>
-        <span class="rec-text">ENREGISTREMENT</span>
-        <span class="rec-timer" id="timer-1">0:00</span>
-      </div>
-      <div class="playback-box" id="playback-1">
-        <div class="playback-label">DERNIER TAKE</div>
-        <audio id="audio-1" controls></audio>
-      </div>
-      <div class="takes-list" id="takes-list-1"></div>
-      <div class="btn-row" id="btns-1">
-        <button class="btn btn-danger" id="rec-btn-1" onclick="toggleRec(1)">⏺ Enregistrer</button>
-        <button class="btn btn-ghost" onclick="goStep(2)" id="next-1" disabled>Suivant →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 2 : PHRASE 2 ──────────────────────────── -->
-  <div class="step" id="step-2">
-    <div class="card">
-      <div class="step-label">Étape 1 · Phrase 2 / 3</div>
-      <div class="instruction">Même chose. Naturel, à ton rythme. L'intonation question à la fin.</div>
-      <div class="phrase-box visible">
-        <div class="phrase-label">À lire</div>
-        <div class="phrase-text">Tu veux bien m'expliquer pourquoi tu n'as pas répondu à mon message d'hier ?</div>
-      </div>
-      <div class="rec-indicator" id="rec-2">
-        <div class="rec-dot"></div>
-        <span class="rec-text">ENREGISTREMENT</span>
-        <span class="rec-timer" id="timer-2">0:00</span>
-      </div>
-      <div class="playback-box" id="playback-2">
-        <div class="playback-label">DERNIER TAKE</div>
-        <audio id="audio-2" controls></audio>
-      </div>
-      <div class="takes-list" id="takes-list-2"></div>
-      <div class="btn-row">
-        <button class="btn btn-danger" id="rec-btn-2" onclick="toggleRec(2)">⏺ Enregistrer</button>
-        <button class="btn btn-ghost" onclick="goStep(3)" id="next-2" disabled>Suivant →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 3 : PHRASE 3 ──────────────────────────── -->
-  <div class="step" id="step-3">
-    <div class="card">
-      <div class="step-label">Étape 1 · Phrase 3 / 3</div>
-      <div class="instruction">Dernière phrase. Parle comme si tu racontais à un ami.</div>
-      <div class="phrase-box visible">
-        <div class="phrase-label">À lire</div>
-        <div class="phrase-text">J'adore les balades en forêt quand il fait frais — ça recharge vraiment les batteries.</div>
-      </div>
-      <div class="rec-indicator" id="rec-3">
-        <div class="rec-dot"></div>
-        <span class="rec-text">ENREGISTREMENT</span>
-        <span class="rec-timer" id="timer-3">0:00</span>
-      </div>
-      <div class="playback-box" id="playback-3">
-        <div class="playback-label">DERNIER TAKE</div>
-        <audio id="audio-3" controls></audio>
-      </div>
-      <div class="takes-list" id="takes-list-3"></div>
-      <div class="btn-row">
-        <button class="btn btn-danger" id="rec-btn-3" onclick="toggleRec(3)">⏺ Enregistrer</button>
-        <button class="btn btn-ghost" onclick="goStep(4)" id="next-3" disabled>Suivant →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 4 : SON R ─────────────────────────────── -->
-  <div class="step" id="step-4">
-    <div class="card">
-      <div class="step-label">Étape 2 · Son piège 1 / 2</div>
-      <div class="instruction">
-        Le <strong style="color:var(--teal)">R indonésien</strong> — la langue tape le palais, comme un R espagnol. Pas le R grasseyé français.<br><br>
-        Écoute d'abord dans ta tête : <strong style="color:var(--teal)">ra · ri · ru · rasa · rumah</strong><br>
-        Puis répète à voix haute plusieurs fois.
-      </div>
-      <div class="son-box visible">
-        <div class="son-indo">ra · ri · ru</div>
-        <div class="son-desc">langue → palais · pas la gorge</div>
-      </div>
-      <div class="rec-indicator" id="rec-4">
-        <div class="rec-dot"></div>
-        <span class="rec-text">ENREGISTREMENT</span>
-        <span class="rec-timer" id="timer-4">0:00</span>
-      </div>
-      <div class="playback-box" id="playback-4">
-        <div class="playback-label">DERNIER TAKE</div>
-        <audio id="audio-4" controls></audio>
-      </div>
-      <div class="takes-list" id="takes-list-4"></div>
-      <div class="btn-row">
-        <button class="btn btn-danger" id="rec-btn-4" onclick="toggleRec(4)">⏺ Enregistrer</button>
-        <button class="btn btn-ghost" onclick="goStep(5)" id="next-4" disabled>Suivant →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 5 : SON NG ────────────────────────────── -->
-  <div class="step" id="step-5">
-    <div class="card">
-      <div class="step-label">Étape 2 · Son piège 2 / 2</div>
-      <div class="instruction">
-        Le <strong style="color:var(--teal)">NG en début de mot</strong> — comme le NG de "camping" mais au tout début. Pas de voyelle avant.<br><br>
-        Essaie : <strong style="color:var(--teal)">nggak · ngobrol · ngerti</strong><br>
-        Pars direct du NG, sans respiration.
-      </div>
-      <div class="son-box visible">
-        <div class="son-indo">nggak · ngobrol</div>
-        <div class="son-desc">NG direct · zéro voyelle devant</div>
-      </div>
-      <div class="rec-indicator" id="rec-5">
-        <div class="rec-dot"></div>
-        <span class="rec-text">ENREGISTREMENT</span>
-        <span class="rec-timer" id="timer-5">0:00</span>
-      </div>
-      <div class="playback-box" id="playback-5">
-        <div class="playback-label">DERNIER TAKE</div>
-        <audio id="audio-5" controls></audio>
-      </div>
-      <div class="takes-list" id="takes-list-5"></div>
-      <div class="btn-row">
-        <button class="btn btn-danger" id="rec-btn-5" onclick="toggleRec(5)">⏺ Enregistrer</button>
-        <button class="btn btn-ghost" onclick="goStep(6)" id="next-5" disabled>Suivant →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STEP 6 : RÉSUMÉ + DOWNLOAD ────────────────── -->
-  <div class="step" id="step-6">
-    <div class="card">
-      <div class="step-label">Étape 3 · Assemblage</div>
-      <div class="instruction">Sélectionne le meilleur take pour chaque étape, puis télécharge le montage.</div>
-
-      <div id="assembly-preview"></div>
-
-      <div class="final-box" id="final-box">
-        <div class="final-title">✓ Montage prêt</div>
-        <div class="final-stats" id="final-stats"></div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-teal" onclick="buildAssembly()" id="build-btn">Assembler</button>
-        <button class="btn btn-success" onclick="downloadAll()" id="dl-btn" disabled>⬇ Télécharger les takes</button>
-      </div>
-
-      <div class="notice" style="margin-top:16px">
-        Envoie les fichiers téléchargés à Claude pour analyse de prononciation avant l'envoi à ElevenLabs.
-      </div>
-    </div>
-  </div>
-
+<!-- S0 : CLÉ API -->
+<div class="step on" id="s0">
+<div class="card">
+  <div class="lbl">Clé API</div>
+  <div class="instr">Entre ta clé Anthropic pour que Claude puisse écouter tes prises.</div>
+  <div class="notice">Utilisée uniquement pour api.anthropic.com · jamais stockée</div>
+  <input type="password" id="apikey" placeholder="sk-ant-api03-..."/>
+  <button class="btn btn-y" onclick="saveKey()">Commencer →</button>
+</div>
 </div>
 
+<!-- S1 : PHRASE 1 -->
+<div class="step" id="s1">
+<div class="card">
+  <div class="lbl">Phrase 1 / 3 — Voix naturelle</div>
+  <div class="instr">Lis à ton rythme normal. Tu peux faire plusieurs prises — Claude choisit la meilleure.</div>
+  <div class="phrase-box">
+    <div class="phrase-lbl">À lire</div>
+    <div class="phrase-txt">Tu pourrais cloner ma voix pour m'apprendre l'indonésien ? J'aimerais vraiment parler comme les gens d'ici, à Bali.</div>
+  </div>
+  <div class="rec-bar" id="rb1"><div class="dot"></div><span class="rec-txt">ENREGISTREMENT</span><span class="rec-time" id="rt1">0:00</span></div>
+  <div class="pb" id="pb1"><div class="pb-lbl">Dernier take</div><audio id="au1" controls></audio></div>
+  <div class="takes" id="tk1"></div>
+  <div class="spin-box" id="sp1"><span class="spin">⟳</span>Claude écoute...</div>
+  <div class="result" id="res1"></div>
+  <div class="btn-row">
+    <button class="btn btn-r" id="recbtn1" onclick="toggleRec(1)">⏺ Enregistrer</button>
+    <button class="btn btn-ghost" id="nb1" onclick="analyzeStep(1)" disabled>Analyser →</button>
+  </div>
+</div>
+</div>
+
+<!-- S2 : PHRASE 2 -->
+<div class="step" id="s2">
+<div class="card">
+  <div class="lbl">Phrase 2 / 3 — Intonation question</div>
+  <div class="instr">Intonation montante à la fin — comme une vraie question.</div>
+  <div class="phrase-box">
+    <div class="phrase-lbl">À lire</div>
+    <div class="phrase-txt">Tu veux bien m'expliquer pourquoi tu n'as pas répondu à mon message d'hier ?</div>
+  </div>
+  <div class="rec-bar" id="rb2"><div class="dot"></div><span class="rec-txt">ENREGISTREMENT</span><span class="rec-time" id="rt2">0:00</span></div>
+  <div class="pb" id="pb2"><div class="pb-lbl">Dernier take</div><audio id="au2" controls></audio></div>
+  <div class="takes" id="tk2"></div>
+  <div class="spin-box" id="sp2"><span class="spin">⟳</span>Claude écoute...</div>
+  <div class="result" id="res2"></div>
+  <div class="btn-row">
+    <button class="btn btn-r" id="recbtn2" onclick="toggleRec(2)">⏺ Enregistrer</button>
+    <button class="btn btn-ghost" id="nb2" onclick="analyzeStep(2)" disabled>Analyser →</button>
+  </div>
+</div>
+</div>
+
+<!-- S3 : PHRASE 3 -->
+<div class="step" id="s3">
+<div class="card">
+  <div class="lbl">Phrase 3 / 3 — Ton décontracté</div>
+  <div class="instr">Parle comme si tu racontais à un ami.</div>
+  <div class="phrase-box">
+    <div class="phrase-lbl">À lire</div>
+    <div class="phrase-txt">J'adore les balades en forêt quand il fait frais — ça recharge vraiment les batteries.</div>
+  </div>
+  <div class="rec-bar" id="rb3"><div class="dot"></div><span class="rec-txt">ENREGISTREMENT</span><span class="rec-time" id="rt3">0:00</span></div>
+  <div class="pb" id="pb3"><div class="pb-lbl">Dernier take</div><audio id="au3" controls></audio></div>
+  <div class="takes" id="tk3"></div>
+  <div class="spin-box" id="sp3"><span class="spin">⟳</span>Claude écoute...</div>
+  <div class="result" id="res3"></div>
+  <div class="btn-row">
+    <button class="btn btn-r" id="recbtn3" onclick="toggleRec(3)">⏺ Enregistrer</button>
+    <button class="btn btn-ghost" id="nb3" onclick="analyzeStep(3)" disabled>Analyser →</button>
+  </div>
+</div>
+</div>
+
+<!-- S4 : FORMULE MAGIQUE -->
+<div class="step" id="s4">
+<div class="card">
+  <div class="lbl">Formule magique — Sons indonésiens</div>
+  <div class="instr">Lis lentement en articulant bien. Le R roule sur la langue. Le NG démarre direct — comme le M de Mbappé.</div>
+  <div class="phrase-box">
+    <div class="phrase-lbl">À lire — la formule complète</div>
+    <div class="phrase-txt">Ra, ri, ru — kangourou — rasa.<br>Nggak, ngobrol, ngerti.<br>Guru, enak, canggu, nyaman.<br>Voum boum belum —<br>abracadabra DuoSlangO !</div>
+  </div>
+  <div class="son-box">
+    <div class="son-txt">R → langue · NG → Mbappé</div>
+    <div class="son-hint">
+      R : langue frappe le palais · pas la gorge<br>
+      NG : "campinggak" → enlève "campi" · ou comme le M de Mbappé<br>
+      U indo : "ou" → guru = gou-rou · belum = be-loum
+    </div>
+  </div>
+  <div class="rec-bar" id="rb4"><div class="dot"></div><span class="rec-txt">ENREGISTREMENT</span><span class="rec-time" id="rt4">0:00</span></div>
+  <div class="pb" id="pb4"><div class="pb-lbl">Dernier take</div><audio id="au4" controls></audio></div>
+  <div class="takes" id="tk4"></div>
+  <div class="spin-box" id="sp4"><span class="spin">⟳</span>Claude écoute...</div>
+  <div class="result" id="res4"></div>
+  <div class="btn-row">
+    <button class="btn btn-r" id="recbtn4" onclick="toggleRec(4)">⏺ Enregistrer</button>
+    <button class="btn btn-ghost" id="nb4" onclick="analyzeStep(4)" disabled>Analyser →</button>
+  </div>
+</div>
+</div>
+
+<!-- S5 : RÉSULTAT FINAL -->
+<div class="step" id="s5">
+<div class="card">
+  <div class="lbl">Montage final</div>
+  <div class="spin-box on" id="sp5"><span class="spin">⟳</span>Assemblage en cours...</div>
+  <div id="final-content" style="display:none">
+    <div class="final">
+      <div class="final-t">✓ Fichier prêt pour ElevenLabs</div>
+      <div id="final-stats" style="font-size:13px;color:var(--text);"></div>
+    </div>
+    <div id="takes-summary" class="takes"></div>
+    <button class="btn btn-g" onclick="downloadFinal()">⬇ Télécharger le 30s IVC</button>
+    <div class="notice" style="margin-top:12px">ElevenLabs → Voice Lab → Add Voice → Instant Voice Clone → upload ce fichier.</div>
+  </div>
+</div>
+</div>
+
+</div><!-- /app -->
+
 <script>
-// ── STATE ──────────────────────────────────────────────────────
-const state = {
-  currentStep: 0,
-  mediaRecorder: null,
-  isRecording: false,
+const S = {
+  key: '',
+  rec: null,
+  recording: false,
   chunks: {},
-  takes: {1:[], 2:[], 3:[], 4:[], 5:[]},
-  selectedTakes: {1:0, 2:0, 3:0, 4:0, 5:0},
+  takes: {1:[],2:[],3:[],4:[]},
+  best: {1:0,2:0,3:0,4:0},
+  analysis: {1:null,2:null,3:null,4:null},
   timers: {},
   stream: null,
+  finalBlob: null,
 };
 
-const TOTAL_STEPS = 6;
-const STEP_LABELS = {
-  1: 'Phrase FR 1',
-  2: 'Phrase FR 2',
-  3: 'Phrase FR 3',
-  4: 'Son R',
-  5: 'Son NG',
+const STEPS = {
+  1:{label:'Phrase FR 1',ctx:'Phrase française naturelle pour clone vocal. Évalue : qualité audio, débit, hésitations. Dis-moi si c\'est bon pour IVC ou à refaire. Verdict court : ✅ OK / ⚠️ Passable / ❌ Refaire. Si passable ou mauvais, dis exactement quoi corriger en 1 phrase.'},
+  2:{label:'Phrase FR 2',ctx:'Phrase française avec intonation montante (question). Même critères. Verdict court + conseil si nécessaire.'},
+  3:{label:'Phrase FR 3',ctx:'Phrase française ton décontracté narratif. Même critères.'},
+  4:{label:'Formule magique',ctx:'Enregistrement contenant : phrases françaises + sons indonésiens (R roulé, NG initial, NY, U=ou). Pour le R : évalue si roulé/tapé sur palais ou encore grasseyé à la française. Pour NG : évalue si démarre direct sans voyelle devant ou si le user ajoute un E. Verdict par son + conseil précis si raté. Dis aussi quelle section est la meilleure pour le montage IVC (début/milieu/fin en secondes approx).'},
 };
 
-// ── NAVIGATION ─────────────────────────────────────────────────
-function goStep(n) {
-  document.querySelector(`#step-${state.currentStep}`).classList.remove('active');
-  state.currentStep = n;
-  document.querySelector(`#step-${n}`).classList.add('active');
-  document.getElementById('progress').style.width = `${(n / TOTAL_STEPS) * 100}%`;
-  if (n === 6) buildAssemblyPreview();
-  window.scrollTo({top: 0, behavior: 'smooth'});
+function saveKey(){
+  const k = document.getElementById('apikey').value.trim();
+  if(!k.startsWith('sk-ant-')){alert('Clé invalide');return;}
+  S.key = k;
+  goStep(1);
 }
 
-// ── RECORDING ──────────────────────────────────────────────────
-async function toggleRec(stepNum) {
-  if (state.isRecording) {
-    stopRec(stepNum);
-  } else {
-    await startRec(stepNum);
+function goStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('s'+n).classList.add('on');
+  document.getElementById('prog').style.width = `${(n/5)*100}%`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===5) buildFinal();
+}
+
+async function toggleRec(n){
+  S.recording ? stopRec(n) : await startRec(n);
+}
+
+async function startRec(n){
+  try{
+    S.stream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    S.rec = new MediaRecorder(S.stream);
+    S.chunks[n] = [];
+    S.rec.ondataavailable = e => S.chunks[n].push(e.data);
+    S.rec.onstop = () => saveTake(n);
+    S.rec.start();
+    S.recording = true;
+    document.getElementById('rb'+n).classList.add('on');
+    document.getElementById('recbtn'+n).textContent = '⏹ Stop';
+    document.getElementById('recbtn'+n).style.background = '#ff6b6b';
+    let sec=0;
+    S.timers[n] = setInterval(()=>{
+      sec++;
+      const m=Math.floor(sec/60), s=sec%60;
+      document.getElementById('rt'+n).textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    },1000);
+  }catch(e){alert('Micro non disponible. Vérifie les permissions Chrome.');}
+}
+
+function stopRec(n){
+  if(S.rec && S.recording){
+    S.rec.stop();
+    S.stream.getTracks().forEach(t=>t.stop());
+    S.recording=false;
+    clearInterval(S.timers[n]);
+    document.getElementById('rb'+n).classList.remove('on');
+    document.getElementById('recbtn'+n).textContent='⏺ Enregistrer';
+    document.getElementById('recbtn'+n).style.background='';
   }
 }
 
-async function startRec(stepNum) {
-  try {
-    state.stream = await navigator.mediaDevices.getUserMedia({audio: true});
-    state.mediaRecorder = new MediaRecorder(state.stream);
-    state.chunks[stepNum] = [];
-
-    state.mediaRecorder.ondataavailable = e => state.chunks[stepNum].push(e.data);
-    state.mediaRecorder.onstop = () => saveTake(stepNum);
-    state.mediaRecorder.start();
-    state.isRecording = true;
-
-    // UI
-    document.getElementById(`rec-btn-${stepNum}`).textContent = '⏹ Stop';
-    document.getElementById(`rec-btn-${stepNum}`).style.background = '#ff6b6b';
-    document.getElementById(`rec-${stepNum}`).classList.add('active');
-
-    // Timer
-    let secs = 0;
-    state.timers[stepNum] = setInterval(() => {
-      secs++;
-      const m = Math.floor(secs / 60);
-      const s = secs % 60;
-      document.getElementById(`timer-${stepNum}`).textContent = `${m}:${s.toString().padStart(2,'0')}`;
-    }, 1000);
-
-  } catch(e) {
-    alert('Micro non disponible. Vérifie les permissions du navigateur.');
-  }
-}
-
-function stopRec(stepNum) {
-  if (state.mediaRecorder && state.isRecording) {
-    state.mediaRecorder.stop();
-    state.stream.getTracks().forEach(t => t.stop());
-    state.isRecording = false;
-    clearInterval(state.timers[stepNum]);
-
-    document.getElementById(`rec-btn-${stepNum}`).textContent = '⏺ Enregistrer';
-    document.getElementById(`rec-btn-${stepNum}`).style.background = '';
-    document.getElementById(`rec-${stepNum}`).classList.remove('active');
-  }
-}
-
-function saveTake(stepNum) {
-  const blob = new Blob(state.chunks[stepNum], {type: 'audio/webm'});
+function saveTake(n){
+  const blob = new Blob(S.chunks[n], {type:'audio/webm'});
   const url = URL.createObjectURL(blob);
-  const takeIdx = state.takes[stepNum].length;
-  state.takes[stepNum].push({blob, url});
-
-  // Update last take audio
-  const audioEl = document.getElementById(`audio-${stepNum}`);
-  audioEl.src = url;
-  document.getElementById(`playback-${stepNum}`).classList.add('visible');
-
+  const idx = S.takes[n].length;
+  S.takes[n].push({blob,url});
+  document.getElementById('au'+n).src = url;
+  document.getElementById('pb'+n).classList.add('on');
   // Add to takes list
-  addTakeToList(stepNum, takeIdx, url);
-
-  // Enable next
-  document.getElementById(`next-${stepNum}`).disabled = false;
-  document.getElementById(`next-${stepNum}`).classList.remove('btn-ghost');
-  document.getElementById(`next-${stepNum}`).classList.add('btn-teal');
+  const li = document.createElement('div');
+  li.className='take-item';
+  li.id=`ti${n}-${idx}`;
+  li.innerHTML=`<span class="take-num">Take ${idx+1}</span><audio src="${url}" controls style="flex:1;height:26px;accent-color:var(--teal)"></audio><span class="take-score" id="ts${n}-${idx}">—</span>`;
+  document.getElementById('tk'+n).appendChild(li);
+  // Enable analyze
+  document.getElementById('nb'+n).disabled=false;
+  document.getElementById('nb'+n).className='btn btn-t';
 }
 
-function addTakeToList(stepNum, idx, url) {
-  const list = document.getElementById(`takes-list-${stepNum}`);
-  const item = document.createElement('div');
-  item.className = `take-item ${idx === 0 ? 'selected' : ''}`;
-  item.id = `take-${stepNum}-${idx}`;
-  item.innerHTML = `
-    <span class="take-num">Take ${idx + 1}</span>
-    <audio class="take-audio" src="${url}" controls></audio>
-    <button class="take-select ${idx === state.selectedTakes[stepNum] ? 'active' : ''}"
-            onclick="selectTake(${stepNum}, ${idx})" id="sel-${stepNum}-${idx}">
-      ${idx === state.selectedTakes[stepNum] ? '✓' : 'Choisir'}
-    </button>
-  `;
-  list.appendChild(item);
-  if (idx === 0) state.selectedTakes[stepNum] = 0;
-}
+async function analyzeStep(n){
+  if(!S.takes[n].length) return;
+  document.getElementById('sp'+n).classList.add('on');
+  document.getElementById('nb'+n).disabled=true;
+  document.getElementById('res'+n).className='result';
 
-function selectTake(stepNum, idx) {
-  // Deselect old
-  const oldIdx = state.selectedTakes[stepNum];
-  const oldItem = document.getElementById(`take-${stepNum}-${oldIdx}`);
-  const oldBtn = document.getElementById(`sel-${stepNum}-${oldIdx}`);
-  if (oldItem) oldItem.classList.remove('selected');
-  if (oldBtn) { oldBtn.classList.remove('active'); oldBtn.textContent = 'Choisir'; }
+  // Use latest take
+  const take = S.takes[n][S.takes[n].length-1];
+  const b64 = await blobToB64(take.blob);
+  const info = STEPS[n];
 
-  // Select new
-  state.selectedTakes[stepNum] = idx;
-  document.getElementById(`take-${stepNum}-${idx}`).classList.add('selected');
-  const newBtn = document.getElementById(`sel-${stepNum}-${idx}`);
-  newBtn.classList.add('active');
-  newBtn.textContent = '✓';
-}
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': S.key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-opus-4-5',
+        max_tokens:400,
+        messages:[{role:'user',content:[
+          {type:'text',text:`Analyse cet enregistrement audio. ${info.ctx}\n\nRéponds en 3-4 lignes maximum. Sois direct.`},
+          {type:'document',source:{type:'base64',media_type:'audio/webm',data:b64}}
+        ]}]
+      })
+    });
 
-// ── ASSEMBLY ───────────────────────────────────────────────────
-function buildAssemblyPreview() {
-  const preview = document.getElementById('assembly-preview');
-  let html = '<div class="takes-list">';
-  for (let s = 1; s <= 5; s++) {
-    const hasTake = state.takes[s].length > 0;
-    html += `<div class="take-item ${hasTake ? '' : ''}">
-      <span class="take-num" style="font-size:12px">${STEP_LABELS[s]}</span>
-      <span style="flex:1;font-size:12px;color:${hasTake ? 'var(--green)' : 'var(--red)'}">
-        ${hasTake ? `✓ ${state.takes[s].length} take(s) · Take ${state.selectedTakes[s]+1} sélectionné` : '✗ Aucun enregistrement'}
-      </span>
-    </div>`;
+    const data = await resp.json();
+    document.getElementById('sp'+n).classList.remove('on');
+
+    if(data.error) throw new Error(data.error.message);
+
+    const txt = data.content[0].text;
+    S.analysis[n] = txt;
+
+    const box = document.getElementById('res'+n);
+    box.textContent = txt;
+
+    // Determine class from content
+    if(txt.includes('❌')||txt.toLowerCase().includes('refaire')){
+      box.className='result bad';
+      document.getElementById('nb'+n).disabled=false;
+      document.getElementById('nb'+n).textContent='Réessayer →';
+      document.getElementById('nb'+n).className='btn btn-ghost';
+    } else if(txt.includes('⚠️')||txt.toLowerCase().includes('passable')){
+      box.className='result warn';
+      // Allow to continue or retry
+      showNextOrRetry(n);
+    } else {
+      box.className='result ok';
+      showNext(n);
+    }
+
+    // Mark take
+    const idx = S.takes[n].length-1;
+    document.getElementById(`ts${n}-${idx}`).textContent = txt.includes('❌')?'❌':txt.includes('⚠️')?'⚠️':'✅';
+
+  }catch(err){
+    document.getElementById('sp'+n).classList.remove('on');
+    const box = document.getElementById('res'+n);
+    box.className='result warn';
+    box.textContent = `Erreur API : ${err.message}`;
+    showNextOrRetry(n);
   }
-  html += '</div>';
-  preview.innerHTML = html;
 }
 
-function buildAssembly() {
-  buildAssemblyPreview();
-  const totalTakes = Object.values(state.takes).reduce((a, t) => a + t.length, 0);
-  if (totalTakes === 0) {
-    alert('Aucun enregistrement trouvé. Reviens en arrière pour enregistrer.');
+function showNext(n){
+  const next = n+1;
+  const btn = document.getElementById('nb'+n);
+  if(next<=4){
+    btn.textContent=`Étape suivante →`;
+    btn.className='btn btn-y';
+    btn.disabled=false;
+    btn.onclick=()=>goStep(next);
+  } else {
+    btn.textContent='Générer le 30s →';
+    btn.className='btn btn-g';
+    btn.disabled=false;
+    btn.onclick=()=>goStep(5);
+  }
+}
+
+function showNextOrRetry(n){
+  const next = n+1;
+  const btn = document.getElementById('nb'+n);
+  btn.disabled=false;
+  btn.className='btn btn-ghost';
+  btn.textContent=next<=4?'Continuer quand même →':'Générer quand même →';
+  btn.onclick=()=>next<=4?goStep(next):goStep(5);
+  // Also enable re-record
+  document.getElementById('recbtn'+n).disabled=false;
+}
+
+async function buildFinal(){
+  // Concat all best takes into WAV
+  const actx = new AudioContext();
+  const buffers = [];
+
+  for(let n=1;n<=4;n++){
+    if(!S.takes[n].length) continue;
+    // Use last take (most recent = supposedly best after retries)
+    const take = S.takes[n][S.takes[n].length-1];
+    try{
+      const ab = await take.blob.arrayBuffer();
+      const decoded = await actx.decodeAudioData(ab);
+      buffers.push({buf:decoded, step:n});
+    }catch(e){console.warn('decode error step',n,e);}
+  }
+
+  if(!buffers.length){
+    document.getElementById('sp5').classList.remove('on');
     return;
   }
-  document.getElementById('final-box').classList.add('visible');
-  const recorded = Object.entries(state.takes).filter(([,t]) => t.length > 0).length;
+
+  const sr = buffers[0].buf.sampleRate;
+  const maxSec = 35;
+  let total = 0;
+  for(const b of buffers) total += b.buf.duration;
+  const cap = Math.min(total, maxSec);
+
+  const out = actx.createBuffer(1, Math.floor(cap*sr), sr);
+  const outData = out.getChannelData(0);
+  let offset=0;
+
+  for(const {buf} of buffers){
+    if(offset/sr >= cap) break;
+    const src = buf.getChannelData(0);
+    const toCopy = Math.min(src.length, Math.floor(cap*sr)-offset);
+    outData.set(src.subarray(0,toCopy), offset);
+    offset += toCopy;
+  }
+
+  // Normalize
+  let peak=0;
+  for(let i=0;i<outData.length;i++) peak=Math.max(peak,Math.abs(outData[i]));
+  if(peak>0.001) for(let i=0;i<outData.length;i++) outData[i] = outData[i]/peak*0.9;
+
+  const wav = encodeWav(out);
+  S.finalBlob = new Blob([wav],{type:'audio/wav'});
+
+  document.getElementById('sp5').classList.remove('on');
   document.getElementById('final-stats').textContent =
-    `${recorded}/5 étapes enregistrées · ${totalTakes} takes au total`;
-  document.getElementById('dl-btn').disabled = false;
+    `${buffers.length} sections · ${cap.toFixed(1)}s · normalisé · prêt ElevenLabs IVC`;
+
+  // Summary
+  const sum = document.getElementById('takes-summary');
+  const labels={1:'Phrase FR 1',2:'Phrase FR 2',3:'Phrase FR 3',4:'Formule magique'};
+  for(let n=1;n<=4;n++){
+    if(!S.takes[n].length) continue;
+    const div=document.createElement('div');
+    div.className='take-item best';
+    const verdict = S.analysis[n]
+      ? (S.analysis[n].includes('❌')?'❌':S.analysis[n].includes('⚠️')?'⚠️':'✅')
+      : '✅';
+    div.innerHTML=`<span class="take-num">${labels[n]}</span><span style="flex:1;font-size:12px;color:var(--muted)">${S.takes[n].length} take(s)</span><span class="take-score">${verdict}</span>`;
+    sum.appendChild(div);
+  }
+
+  document.getElementById('final-content').style.display='block';
 }
 
-function downloadAll() {
-  for (let s = 1; s <= 5; s++) {
-    if (state.takes[s].length === 0) continue;
-    const selectedIdx = state.selectedTakes[s];
-    const take = state.takes[s][selectedIdx];
-    const a = document.createElement('a');
-    a.href = take.url;
-    a.download = `duoslango_vcs_step${s}_take${selectedIdx+1}.webm`;
-    a.click();
+function downloadFinal(){
+  if(!S.finalBlob){alert('Fichier non prêt');return;}
+  const url=URL.createObjectURL(S.finalBlob);
+  const a=document.createElement('a');
+  a.href=url; a.download='duoslango_ivc_30s.wav'; a.click();
+}
+
+function blobToB64(blob){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=rej;
+    r.readAsDataURL(blob);
+  });
+}
+
+function encodeWav(buffer){
+  const sr=buffer.sampleRate, ns=buffer.length, nc=1, bps=2;
+  const ab=new ArrayBuffer(44+ns*bps);
+  const v=new DataView(ab);
+  const ws=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+  ws(0,'RIFF'); v.setUint32(4,36+ns*bps,true);
+  ws(8,'WAVE'); ws(12,'fmt '); v.setUint32(16,16,true);
+  v.setUint16(20,1,true); v.setUint16(22,nc,true);
+  v.setUint32(24,sr,true); v.setUint32(28,sr*nc*bps,true);
+  v.setUint16(32,nc*bps,true); v.setUint16(34,bps*8,true);
+  ws(36,'data'); v.setUint32(40,ns*bps,true);
+  const d=buffer.getChannelData(0);
+  let o=44;
+  for(let i=0;i<ns;i++){
+    const s=Math.max(-1,Math.min(1,d[i]));
+    v.setInt16(o,s<0?s*32768:s*32767,true); o+=2;
   }
+  return ab;
 }
 </script>
 </body>
